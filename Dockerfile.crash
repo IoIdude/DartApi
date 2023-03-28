@@ -1,0 +1,16 @@
+FROM dart
+
+WORKDIR /api
+
+COPY pubspec.* /api
+
+RUN dart pub get 
+
+COPY . /api/
+
+RUN dart pub get --offline --no-precompile
+
+WORKDIR /api
+EXPOSE 80
+
+ENTRYPOINT ["dart", "pub", "run", "conduit:conduit", "serve", "--port", "80"]
